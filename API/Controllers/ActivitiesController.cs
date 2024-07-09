@@ -33,5 +33,24 @@ namespace API.Controllers
 
             return Ok();
         }
+        [HttpPut]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
+        {
+            activity.Id = id;
+            await Mediator.Send(new Edit.Command { Activity = activity});
+
+            return Ok();
+        }
+        [HttpDelete]
+        [Route("{id:Guid}")]
+
+        public async Task<IActionResult> DeleteActivity(Guid id)
+        {
+            await Mediator.Send(new Delete.Command { Id = id});
+
+            return Ok();
+        }
     }
 }
