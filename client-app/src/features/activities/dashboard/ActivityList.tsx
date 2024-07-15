@@ -1,13 +1,13 @@
 import React from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
+import { Activity } from "../../../app/layout/models/activity";
 import { useStore } from "../../../app/stores/store";
 import { observer } from "mobx-react-lite";
 
 
 export default observer(function ActivityList() {
      const { activityStore } = useStore();
-    const { deleteActivity, loading, activities } = activityStore;
+    const { deleteActivity, loading, activitiesByDate } = activityStore;
   const [target, setTarget] = React.useState("" as string | undefined);
   function handleActivityDelete(
     e: React.MouseEvent<HTMLButtonElement>,
@@ -19,7 +19,7 @@ export default observer(function ActivityList() {
   return (
     <Segment>
       <Item.Group divided>
-        {activities.map((activity) => (
+        {activitiesByDate.map((activity) => (
           <Item key={activity.id}>
             <Item.Content>
               <Item.Header as="a">{activity.title}</Item.Header>
