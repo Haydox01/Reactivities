@@ -30,9 +30,7 @@ namespace API.Controllers
 
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
-            await Mediator.Send(new Create.Command { Activity = activity});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
         }
         [HttpPut]
         [Route("{id:Guid}")]
@@ -40,18 +38,14 @@ namespace API.Controllers
         public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
         {
             activity.Id = id;
-            await Mediator.Send(new Edit.Command { Activity = activity});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
         }
         [HttpDelete]
         [Route("{id:Guid}")]
 
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
-            await Mediator.Send(new Delete.Command { Id = id});
-
-            return Ok();
+            return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
         }
     }
 }
