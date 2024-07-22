@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Domain;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 using Application.Activities;
 using Application;
+using API.Extensions;
 
 namespace API.Controllers
 {
@@ -27,6 +22,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
 
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
@@ -34,6 +30,7 @@ namespace API.Controllers
         }
         [HttpPut]
         [Route("{id:Guid}")]
+        [ValidateModel]
 
         public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
         {
