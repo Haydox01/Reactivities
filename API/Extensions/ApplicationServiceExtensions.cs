@@ -5,6 +5,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
 
+
 namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
