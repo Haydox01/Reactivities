@@ -13,6 +13,9 @@ body{
 
 .masthead{
 }
+.react-datepicker-wrapper{
+    width: 100%;
+}
 
 .masthead {
     display: flex;
