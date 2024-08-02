@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
+        [AllowAnonymous]
         
         [HttpGet]
         public async Task<IActionResult> GetActivities()
@@ -18,6 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetActivity(Guid id)
         {
             return HandleResult( await Mediator.Send(new Details.Query { Id = id }));
@@ -25,6 +26,7 @@ namespace API.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [AllowAnonymous]
 
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
@@ -33,6 +35,7 @@ namespace API.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
+        [AllowAnonymous]
 
         public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
         {

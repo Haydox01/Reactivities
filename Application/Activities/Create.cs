@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using Domain;
 using FluentValidation;
 using Application.Core;
+using Application.Interfaces;
 
 namespace Application.Activities
 {
@@ -30,13 +31,24 @@ namespace Application.Activities
         public class Handler : IRequestHandler<Command, Result<Unit>>
         {
             private readonly DataContext _context;
+            private readonly IUserAccessor userAccessor;
 
-            public Handler(DataContext Context)
+            public Handler(DataContext Context, IUserAccessor userAccessor)
             {
                 _context = Context;
+                this.userAccessor = userAccessor;
             }
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
+                var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == userAccessor.GetUsername());
+                var attendee = new ActivityAttendee
+                {
+                    AppUser = user,
+                    Activity = request.Activity,
+                    IsHost = true
+                };
+                request.Activity.Attendees.Add(attendee);
+
                  _context.Activities.Add(request.Activity);
                 var result= await _context.SaveChangesAsync()>0;
                 if (!result) return Result<Unit>.Failure("Failed to create activity");
