@@ -32,6 +32,8 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
         }
+
+        [Authorize(Policy = "IsActivityHost")]
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
@@ -43,11 +45,21 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
         }
         [HttpDelete]
+        [Authorize(Policy = "IsActivityHost")]
         [Route("{id:Guid}")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
+
+        [HttpPost("{id}/attend")]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateAttendance.Command { Id = id }));
         }
     }
 }
