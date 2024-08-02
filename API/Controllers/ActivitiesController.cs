@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace API.Controllers
 {
-    [AllowAnonymous]
     public class ActivitiesController : BaseApiController
     {
+        [AllowAnonymous]
         
         [HttpGet]
         public async Task<IActionResult> GetActivities()
@@ -18,6 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetActivity(Guid id)
         {
             return HandleResult( await Mediator.Send(new Details.Query { Id = id }));
@@ -25,14 +26,18 @@ namespace API.Controllers
 
         [HttpPost]
         [ValidateModel]
+        [AllowAnonymous]
 
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
             return HandleResult(await Mediator.Send(new Create.Command { Activity = activity }));
         }
+
+        [Authorize(Policy = "IsActivityHost")]
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
+        [AllowAnonymous]
 
         public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
         {
@@ -40,11 +45,21 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Edit.Command { Activity = activity }));
         }
         [HttpDelete]
+        [Authorize(Policy = "IsActivityHost")]
         [Route("{id:Guid}")]
+        [AllowAnonymous]
 
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }));
+        }
+
+        [HttpPost("{id}/attend")]
+        [AllowAnonymous]
+
+        public async Task<IActionResult> Attend(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new UpdateAttendance.Command { Id = id }));
         }
     }
 }
