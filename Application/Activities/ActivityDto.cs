@@ -19,6 +19,6 @@ namespace Application.Activities
         public bool IsCancelled { get; set; }
 
         public string HostUserName { get; set; }
-        public ICollection<AttendeesProfile> Attendees { get; set; }
+        public ICollection<AttendeeDto> Attendees { get; set; }
     }
 }
