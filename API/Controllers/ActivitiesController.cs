@@ -9,7 +9,7 @@ namespace API.Controllers
 {
     public class ActivitiesController : BaseApiController
     {
-        [AllowAnonymous]
+        // [AllowAnonymous]
         
         [HttpGet]
         public async Task<IActionResult> GetActivities()
@@ -18,7 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        // [AllowAnonymous]
         public async Task<IActionResult> GetActivity(Guid id)
         {
             return HandleResult( await Mediator.Send(new Details.Query { Id = id }));
@@ -26,7 +26,7 @@ namespace API.Controllers
 
         [HttpPost]
         [ValidateModel]
-        [AllowAnonymous]
+        // [AllowAnonymous]
 
         public async Task<IActionResult> CreateActivity([FromBody] Activity activity)
         {
@@ -37,7 +37,7 @@ namespace API.Controllers
         [HttpPut]
         [Route("{id:Guid}")]
         [ValidateModel]
-        [AllowAnonymous]
+        // [AllowAnonymous]
 
         public async Task<IActionResult> EditActivity (Guid id, [FromBody] Activity activity)
         {
@@ -47,7 +47,7 @@ namespace API.Controllers
         [HttpDelete]
         [Authorize(Policy = "IsActivityHost")]
         [Route("{id:Guid}")]
-        [AllowAnonymous]
+        // [AllowAnonymous]
 
         public async Task<IActionResult> DeleteActivity(Guid id)
         {
@@ -55,7 +55,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{id}/attend")]
-        [AllowAnonymous]
+        // [AllowAnonymous]
 
         public async Task<IActionResult> Attend(Guid id)
         {

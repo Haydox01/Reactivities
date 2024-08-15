@@ -4,7 +4,6 @@ import { Activity } from '../../../app/layout/models/activity';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import { useStore } from '../../../app/stores/store';
-import { act } from 'react-dom/test-utils';
 
 const activityImageStyle = {
     filter: 'brightness(30%)'
@@ -73,7 +72,7 @@ export default observer (function ActivityDetailedHeader({activity}: Props) {
             basic
             content={activity.isCancelled ? 'Re-activate Activity' : 'Cancel Activity'}
             onClick={cancelActivityToggle}
-            // loading={loading}
+             loading={loading}
             >
 
             </Button>
