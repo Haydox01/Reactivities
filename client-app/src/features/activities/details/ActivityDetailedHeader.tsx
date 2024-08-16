@@ -53,7 +53,7 @@ export default observer (function ActivityDetailedHeader({activity}: Props) {
                   <p>
                     Hosted by{" "}
                     <strong>
-                      <Link to={`/profiles/${activity.host?.username}`}>
+                      <Link to={`/profiles/${activity.host?.userName}`}>
                         {activity.host?.displayName}
                       </Link>
                     </strong>
@@ -72,7 +72,7 @@ export default observer (function ActivityDetailedHeader({activity}: Props) {
             basic
             content={activity.isCancelled ? 'Re-activate Activity' : 'Cancel Activity'}
             onClick={cancelActivityToggle}
-             loading={loading}
+            //  loading={loading}
             >
 
             </Button>

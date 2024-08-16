@@ -72,10 +72,10 @@ export default class ActivityStore {
     const user = store.userStore.user
     if (user){
       activity.isGoing = activity.attendees!.some(
-        a => a.username === user.username
+        a => a.userName === user.username
       )
-      activity.isHost= activity.hostUsername === user.username;
-      activity.host = activity.attendees?.find(x=> x.username === activity.hostUsername)
+      activity.isHost= activity.hostUserName === user.username;
+      activity.host = activity.attendees?.find(x=> x.userName === activity.hostUserName)
     }
     activity.date = new Date(activity.date!);
     this.activityRegistry.set(activity.id, activity);
@@ -97,7 +97,7 @@ export default class ActivityStore {
     try {
       await agent.Activities.create(activity);
       const newActivity = new Activity(activity);
-      newActivity.hostUsername = user!.username;
+      newActivity.hostUserName = user!.username;
       newActivity.attendees = [attendee]
       this.setActivity(newActivity);
       runInAction(() => {
@@ -159,7 +159,7 @@ updateAttendance = async () =>{
     await agent.Activities.attend(this.selectedActivity!.id);
     runInAction(() => {
       if (this.selectedActivity?.isGoing){
-        this.selectedActivity.attendees = this.selectedActivity.attendees?.filter(a=> a.username !== user?.username);
+        this.selectedActivity.attendees = this.selectedActivity.attendees?.filter(a=> a.userName !== user?.username);
         this.selectedActivity.isGoing = false;
       } else{
         const attendee= new Profile(user!);
@@ -174,6 +174,8 @@ updateAttendance = async () =>{
     runInAction(() => this.loading =false)
   }
 }
+
+
 
  cancelActivityToggle = async () => {
   this.loading = true;

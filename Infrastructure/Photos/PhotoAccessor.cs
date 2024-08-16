@@ -20,7 +20,7 @@ namespace Infrastructure.Photos
             var account = new Account(
                 config.Value.CloudName,
                 config.Value.ApiKey,
-                config.Value.ApiSecretKey
+                config.Value.ApiSecret
                 );
             _cloudinary = new Cloudinary(account);
             
