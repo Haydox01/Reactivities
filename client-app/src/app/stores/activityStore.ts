@@ -72,10 +72,10 @@ export default class ActivityStore {
     const user = store.userStore.user
     if (user){
       activity.isGoing = activity.attendees!.some(
-        a => a.username === user.username
+        a => a.userName === user.username
       )
-      activity.isHost= activity.hostUsername === user.username;
-      activity.host = activity.attendees?.find(x=> x.username === activity.hostUsername)
+      activity.isHost= activity.hostUserName === user.username;
+      activity.host = activity.attendees?.find(x=> x.userName === activity.hostUserName)
     }
     activity.date = new Date(activity.date!);
     this.activityRegistry.set(activity.id, activity);
@@ -97,7 +97,7 @@ export default class ActivityStore {
     try {
       await agent.Activities.create(activity);
       const newActivity = new Activity(activity);
-      newActivity.hostUsername = user!.username;
+      newActivity.hostUserName = user!.username;
       newActivity.attendees = [attendee]
       this.setActivity(newActivity);
       runInAction(() => {
@@ -159,7 +159,7 @@ updateAttendance = async () =>{
     await agent.Activities.attend(this.selectedActivity!.id);
     runInAction(() => {
       if (this.selectedActivity?.isGoing){
-        this.selectedActivity.attendees = this.selectedActivity.attendees?.filter(a=> a.username !== user?.username);
+        this.selectedActivity.attendees = this.selectedActivity.attendees?.filter(a=> a.userName !== user?.username);
         this.selectedActivity.isGoing = false;
       } else{
         const attendee= new Profile(user!);
@@ -175,6 +175,41 @@ updateAttendance = async () =>{
   }
 }
 
+
+// updateAttendance = async () => {
+//   const user = toJS(store.userStore.user); // Convert user to plain JS object
+//   this.loading = true;
+//   console.log("User before attendance update:", user);
+//   console.log("Selected activity before update:", toJS(this.selectedActivity));
+
+//   try {
+//     await agent.Activities.attend(this.selectedActivity!.id);
+//     runInAction(() => {
+//       if (this.selectedActivity?.isGoing) {
+//         console.log("User is currently going. Removing attendance...");
+//         this.selectedActivity.attendees = this.selectedActivity.attendees?.filter(a => a.userName !== user?.username);
+//         this.selectedActivity.isGoing = false;
+//       } else {
+//         console.log("User is not going. Adding attendance...");
+//         const attendee = new Profile(user!);
+//         this.selectedActivity?.attendees?.push(attendee);
+//         this.selectedActivity!.isGoing = true;
+//       }
+//       console.log("Updated selected activity:", toJS(this.selectedActivity));
+//       this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
+//     });
+//   } catch (error) {
+//     console.log("Error in updateAttendance:", error);
+//   } finally {
+//     runInAction(() => {
+//       this.loading = false;
+//       console.log("Loading status:", this.loading);
+//     });
+//   }
+// }
+
+
+
  cancelActivityToggle = async () => {
   this.loading = true;
   try{
@@ -189,5 +224,28 @@ updateAttendance = async () =>{
     runInAction(() => this.loading= false);
   }
  }
+
+
+// cancelActivityToggle = async () => {
+//   this.loading = true;
+//   console.log("Selected activity before cancellation toggle:", toJS(this.selectedActivity));
+
+//   try {
+//     await agent.Activities.attend(this.selectedActivity!.id);
+//     runInAction(() => {
+//       this.selectedActivity!.isCancelled = !this.selectedActivity!.isCancelled;
+//       console.log("Toggled cancellation status:", this.selectedActivity!.isCancelled);
+//       this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
+//     });
+//   } catch (error) {
+//     console.log("Error in cancelActivityToggle:", error);
+//   } finally {
+//     runInAction(() => {
+//       this.loading = false;
+//       console.log("Loading status:", this.loading);
+//     });
+//   }
+// }
+
 
 }
