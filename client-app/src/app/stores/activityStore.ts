@@ -191,5 +191,8 @@ updateAttendance = async () =>{
     runInAction(() => this.loading= false);
   }
  }
+ clearSelectedActivity = () => {
+  this.selectedActivity = undefined;
+ }
 
 }
