@@ -4,6 +4,7 @@ using Application.Activities;
 using Application;
 using API.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Application.Core;
 
 namespace API.Controllers
 {
@@ -12,9 +13,9 @@ namespace API.Controllers
         // [AllowAnonymous]
         
         [HttpGet]
-        public async Task<IActionResult> GetActivities()
+        public async Task<IActionResult> GetActivities([FromQuery] PagingParams param)
         {
-            return HandleResult(await Mediator.Send(new ActivityList.Query()));
+            return HandlePagedResult(await Mediator.Send(new ActivityList.Query { Params = param}));
         }
 
         [HttpGet("{id}")]
